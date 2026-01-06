@@ -18,7 +18,7 @@ st.subheader("✍️ Ingresá tu idea o borrador")
 user_text = st.text_area(
     "Texto base:",
     height=150,
-    placeholder="Ej: Quiero enviar un mail para solicitar información..."
+    placeholder="Ej: Solicitar información sobre un producto..."
 )
 
 text_type = st.selectbox(
@@ -45,25 +45,25 @@ if st.button("🚀 Generar texto con IA"):
         st.warning("Por favor ingresá un texto base.")
     else:
         prompt = f"""
-Redactá un {text_type} completo en español, con tono profesional,
-claro y bien estructurado.
+Escribí directamente un {text_type} en español.
+Usá un tono profesional, claro y bien estructurado.
 
-NO expliques lo que vas a hacer.
-NO repitas la consigna.
-Escribí directamente el texto final.
-
-Idea base:
+Texto base:
 {user_text}
+
+Texto final:
 """
 
         result = generator(
             prompt,
             max_length=300,
-            do_sample=False
+            temperature=0.7,
+            top_p=0.9,
+            do_sample=True
         )
 
         st.subheader("✅ Texto generado")
-        st.write(result[0]["generated_text"])
+        st.write(result[0]["generated_text"].strip())
 
 st.markdown("---")
 st.subheader("ℹ️ ¿Cómo funciona?")
@@ -72,5 +72,5 @@ st.markdown("""
 1. Ingresás una idea o texto base.  
 2. Seleccionás el tipo de texto.  
 3. Presionás el botón de generación.  
-4. La IA genera un texto optimizado listo para usar.
+4. La IA genera un texto listo para usar.
 """)
