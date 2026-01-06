@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from transformers import pipeline
 
 st.set_page_config(
     page_title="SmartText Assistant",
@@ -31,30 +31,30 @@ text_type = st.selectbox(
     ]
 )
 
+@st.cache_resource
+def load_model():
+    return pipeline(
+        "text2text-generation",
+        model="google/flan-t5-base"
+    )
+
+generator = load_model()
+
 if st.button("🚀 Generar texto con IA"):
     if user_text.strip() == "":
         st.warning("Por favor ingresá un texto base.")
     else:
-        try:
-            genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-            model = genai.GenerativeModel("gemini-1.0-pro")
+        prompt = f"""
+        Generá un {text_type} claro, profesional y bien estructurado
+        a partir del siguiente texto:
 
-            prompt = f"""
-            Actúa como un asistente experto en redacción profesional.
-            A partir del siguiente texto base, genera un {text_type}
-            claro, coherente y bien estructurado.
+        {user_text}
+        """
 
-            Texto base:
-            {user_text}
-            """
+        result = generator(prompt, max_length=300)
 
-            response = model.generate_content(prompt)
-
-            st.subheader("✅ Texto generado")
-            st.write(response.text)
-
-        except Exception as e:
-            st.error(f"❌ Error real: {e}")
+        st.subheader("✅ Texto generado")
+        st.write(result[0]["generated_text"])
 
 st.markdown("---")
 st.subheader("ℹ️ ¿Cómo funciona?")
