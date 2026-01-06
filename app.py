@@ -45,19 +45,19 @@ if st.button("🚀 Generar texto con IA"):
         st.warning("Por favor ingresá un texto base.")
     else:
         prompt = f"""
-Redactá el siguiente texto en español.
+Escribí directamente un {text_type.lower()} en español.
+Usá un tono profesional, claro y bien estructurado.
+NO expliques lo que vas a hacer.
+NO repitas la consigna.
+Escribí solo el texto final.
 
-Tipo de texto: {text_type}
-
-Texto:
+Texto base:
 {user_text}
-
-Texto final:
 """
 
         result = generator(
             prompt,
-            max_length=250,
+            max_length=300,
             do_sample=True,
             temperature=0.7
         )
@@ -70,9 +70,10 @@ st.subheader("ℹ️ ¿Cómo funciona?")
 
 st.markdown(
     """
-1. Ingresás una idea o texto base.  
-2. Seleccionás el tipo de texto.  
-3. Presionás el botón de generación.  
-4. La IA genera un texto listo para usar.
+1. Ingresás una idea o texto base  
+2. Seleccionás el tipo de texto  
+3. Presionás el botón de generación  
+4. La IA genera un texto listo para usar  
 """
 )
+
