@@ -53,7 +53,7 @@ if st.button("🚀 Generar texto con IA"):
             st.subheader("✅ Texto generado")
             st.write(response.text)
 
-        except Exception:
+        except Exception as e:
             st.error("No se pudo generar el texto. Verificá la API Key de Gemini.")
 
 st.markdown("---")
