@@ -44,7 +44,6 @@ if st.button("🚀 Generar texto con IA"):
     if user_text.strip() == "":
         st.warning("Por favor ingresá un texto base.")
     else:
-        # PROMPT CORREGIDO (CLAVE)
         prompt = f"""
 Redactá el siguiente texto en español.
 
@@ -69,5 +68,11 @@ Texto final:
 st.markdown("---")
 st.subheader("ℹ️ ¿Cómo funciona?")
 
-st.markdown("""
-1. In
+st.markdown(
+    """
+1. Ingresás una idea o texto base.  
+2. Seleccionás el tipo de texto.  
+3. Presionás el botón de generación.  
+4. La IA genera un texto listo para usar.
+"""
+)
