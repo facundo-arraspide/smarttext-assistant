@@ -37,7 +37,7 @@ if st.button("🚀 Generar texto con IA"):
     else:
         try:
             genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-            model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.0-pro")
 
 
             prompt = f"""
