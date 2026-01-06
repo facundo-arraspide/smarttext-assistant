@@ -39,7 +39,6 @@ if st.button("🚀 Generar texto con IA"):
             genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
             model = genai.GenerativeModel("gemini-1.5-flash")
 
-
             prompt = f"""
             Actúa como un asistente experto en redacción profesional.
             A partir del siguiente texto base, genera un {text_type}
@@ -55,7 +54,7 @@ if st.button("🚀 Generar texto con IA"):
             st.write(response.text)
 
         except Exception as e:
-            st.error("No se pudo generar el texto. Verificá la API Key de Gemini.")
+            st.error(f"❌ Error real: {e}")
 
 st.markdown("---")
 st.subheader("ℹ️ ¿Cómo funciona?")
