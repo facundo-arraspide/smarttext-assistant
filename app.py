@@ -45,13 +45,22 @@ if st.button("🚀 Generar texto con IA"):
         st.warning("Por favor ingresá un texto base.")
     else:
         prompt = f"""
-        Generá un {text_type} claro, profesional y bien estructurado
-        a partir del siguiente texto:
+Redactá un {text_type} completo en español, con tono profesional,
+claro y bien estructurado.
 
-        {user_text}
-        """
+NO expliques lo que vas a hacer.
+NO repitas la consigna.
+Escribí directamente el texto final.
 
-        result = generator(prompt, max_length=300)
+Idea base:
+{user_text}
+"""
+
+        result = generator(
+            prompt,
+            max_length=300,
+            do_sample=False
+        )
 
         st.subheader("✅ Texto generado")
         st.write(result[0]["generated_text"])
