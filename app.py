@@ -1,5 +1,5 @@
 import streamlit as st
-from openai import OpenAI
+import google.generativeai as genai
 
 st.set_page_config(
     page_title="SmartText Assistant",
@@ -35,8 +35,9 @@ if st.button("🚀 Generar texto con IA"):
     if user_text.strip() == "":
         st.warning("Por favor ingresá un texto base.")
     else:
-        with st.spinner("Generando texto con IA..."):
-            client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+        try:
+            genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+            model = genai.GenerativeModel("gemini-pro")
 
             prompt = f"""
             Actúa como un asistente experto en redacción profesional.
@@ -47,20 +48,13 @@ if st.button("🚀 Generar texto con IA"):
             {user_text}
             """
 
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "Eres un asistente experto en redacción."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.6,
-                max_tokens=300
-            )
+            response = model.generate_content(prompt)
 
-            result = response.choices[0].message.content
+            st.subheader("✅ Texto generado")
+            st.write(response.text)
 
-        st.subheader("✅ Texto generado")
-        st.write(result)
+        except Exception:
+            st.error("No se pudo generar el texto. Verificá la API Key de Gemini.")
 
 st.markdown("---")
 st.subheader("ℹ️ ¿Cómo funciona?")
