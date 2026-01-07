@@ -1,25 +1,20 @@
 import streamlit as st
 from transformers import pipeline
 
+# Configuración de la página
 st.set_page_config(
     page_title="SmartText Assistant",
-    page_icon="🤖"
+    page_icon="✍️",
+    layout="centered"
 )
 
-st.title("🤖 SmartText Assistant")
+st.title("Asistente de SmartText")
 st.write(
-    "Aplicación web con Inteligencia Artificial que mejora textos "
-    "y los convierte en versiones más claras y profesionales."
+    "SmartText Assistant es una aplicación web con Inteligencia Artificial "
+    "que mejora y reescribe textos en español usando un tono formal, claro y profesional."
 )
 
-st.subheader("✍️ Ingresá un texto base")
-
-user_text = st.text_area(
-    "Texto:",
-    height=150,
-    placeholder="Ej: hola buenas necesito una carta para quejarme de algo"
-)
-
+# Cargar modelo (liviano y gratuito)
 @st.cache_resource
 def load_model():
     return pipeline(
@@ -27,34 +22,46 @@ def load_model():
         model="google/flan-t5-base"
     )
 
-model = load_model()
+generator = load_model()
 
-if st.button("🚀 Mejorar texto"):
-    if user_text.strip() == "":
-        st.warning("Por favor ingresá un texto.")
+# Entrada del usuario
+st.markdown("### ✍️ Ingresá un texto base")
+texto_usuario = st.text_area(
+    "Texto:",
+    placeholder="Ejemplo: hola buenas nesecito una carta para quejarme de algo",
+    height=120
+)
+
+# Botón
+if st.button("Generar texto"):
+    if not texto_usuario.strip():
+        st.warning("Por favor, ingresá un texto para mejorar.")
     else:
         prompt = f"""
-Rewrite the following text in Spanish using a formal, clear and professional tone.
+You are a professional writing assistant.
+
+Task:
+Rewrite the following text in formal, clear and professional Spanish.
+Do not explain anything.
+Do not repeat the instructions.
+Only return the final rewritten text.
 
 Text:
-{user_text}
-
-Improved version:
+"{texto_usuario}"
 """
 
-        result = model(
-            prompt,
-            max_length=200,
-            do_sample=False
-        )
+        with st.spinner("Generando texto..."):
+            result = generator(
+                prompt,
+                max_length=250,
+                do_sample=False
+            )
 
-        st.subheader("✅ Texto generado")
-        st.write(result[0]["generated_text"])
+        texto_generado = result[0]["generated_text"]
 
+        st.markdown("### ✅ Texto generado")
+        st.write(texto_generado)
+
+# Footer
 st.markdown("---")
-st.subheader("ℹ️ ¿Cómo funciona?")
-st.markdown(
-    "1. Ingresás un texto base.\n"
-    "2. Presionás el botón de mejora.\n"
-    "3. La IA devuelve una versión más profesional del texto."
-)
+st.caption("Proyecto académico – SmartText Assistant")
