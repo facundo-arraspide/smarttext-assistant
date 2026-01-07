@@ -17,7 +17,7 @@ st.write(
 
 st.subheader("✍️ Ingresá tu idea o borrador")
 
-# Input del usuario
+# Entrada del usuario
 user_text = st.text_area(
     "Texto base:",
     height=150,
@@ -34,7 +34,7 @@ text_type = st.selectbox(
     ]
 )
 
-# Cargar modelo (sin API, local)
+# Cargar el modelo (sin API)
 @st.cache_resource
 def load_model():
     return pipeline(
@@ -44,7 +44,7 @@ def load_model():
 
 generator = load_model()
 
-# Botón de acción
+# Botón de generación
 if st.button("🚀 Generar texto con IA"):
     if user_text.strip() == "":
         st.warning("Por favor ingresá un texto base.")
@@ -62,3 +62,18 @@ Texto final:
             prompt,
             max_length=250,
             do_sample=False
+        )
+
+        st.subheader("✅ Texto generado")
+        st.write(result[0]["generated_text"])
+
+# Sección Cómo funciona
+st.markdown("---")
+st.subheader("ℹ️ ¿Cómo funciona?")
+
+st.markdown(
+    "1. Ingresás una idea o texto base.\n"
+    "2. Seleccionás el tipo de texto.\n"
+    "3. Presionás el botón de generación.\n"
+    "4. La IA genera un texto listo para usar."
+)
