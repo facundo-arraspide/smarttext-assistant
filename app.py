@@ -8,8 +8,8 @@ st.set_page_config(
 
 st.title("🤖 SmartText Assistant")
 st.write(
-    "Esta aplicación usa Inteligencia Artificial para mejorar y reescribir "
-    "textos en español de forma clara y profesional."
+    "Aplicación web con Inteligencia Artificial que mejora textos "
+    "y los convierte en versiones más claras y profesionales."
 )
 
 st.subheader("✍️ Ingresá un texto base")
@@ -17,7 +17,7 @@ st.subheader("✍️ Ingresá un texto base")
 user_text = st.text_area(
     "Texto:",
     height=150,
-    placeholder="Ej: hola, quiero pedir información sobre un producto"
+    placeholder="Ej: hola buenas necesito una carta para quejarme de algo"
 )
 
 @st.cache_resource
@@ -29,17 +29,17 @@ def load_model():
 
 model = load_model()
 
-if st.button("🚀 Mejorar texto con IA"):
+if st.button("🚀 Mejorar texto"):
     if user_text.strip() == "":
         st.warning("Por favor ingresá un texto.")
     else:
         prompt = f"""
-Reescribí el siguiente texto en español usando un tono formal, claro y profesional:
+Rewrite the following text in Spanish using a formal, clear and professional tone.
 
-Texto:
+Text:
 {user_text}
 
-Texto mejorado:
+Improved version:
 """
 
         result = model(
@@ -56,5 +56,5 @@ st.subheader("ℹ️ ¿Cómo funciona?")
 st.markdown(
     "1. Ingresás un texto base.\n"
     "2. Presionás el botón de mejora.\n"
-    "3. La IA reescribe el texto de forma más profesional."
+    "3. La IA devuelve una versión más profesional del texto."
 )
